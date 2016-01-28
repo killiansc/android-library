@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Ksaintcricq</string>
+    <string name="app_name">Ksaintcricq library</string>
+    <string name="euros">%s€</string>
 </resources>
