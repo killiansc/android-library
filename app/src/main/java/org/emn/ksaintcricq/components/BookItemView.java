@@ -43,6 +43,7 @@ public class BookItemView extends LinearLayout {
         priceTextView.setText(getResources().getString(R.string.euros, book.getPrice()));
         Glide.with(this.getContext())
                 .load(book.getCover())
+                .centerCrop()
                 .into(coverImageView);
     }
 
