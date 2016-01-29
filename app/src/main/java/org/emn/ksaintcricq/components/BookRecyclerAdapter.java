@@ -1,6 +1,7 @@
 package org.emn.ksaintcricq.components;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,22 +16,27 @@ import java.util.List;
 
 public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapter.ViewHolder> {
 
-    private List<Book> books;
     private final Context context;
+    private List<Book> books;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private Context context;
+        private BookListener listener;
+        private Book book;
 
         public ViewHolder(BookItemView itemView) {
             super(itemView);
-            this.context = itemView.getContext();
+            this.listener = (BookListener) itemView.getContext();
             itemView.setOnClickListener(this);
+        }
+
+        public void setBook(Book book) {
+            this.book = book;
         }
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(context, "Click!", Toast.LENGTH_SHORT).show();
+            this.listener.onBookClick(book);
         }
 
     }
@@ -56,7 +62,9 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ((BookItemView) holder.itemView).bindView(this.books.get(position));
+        Book current = this.books.get(position);
+        holder.setBook(current);
+        ((BookItemView) holder.itemView).bindView(current);
     }
 
     @Override

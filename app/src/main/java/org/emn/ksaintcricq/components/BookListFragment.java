@@ -1,5 +1,6 @@
 package org.emn.ksaintcricq.components;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,11 @@ public class BookListFragment extends Fragment {
 
     private BookRecyclerAdapter adapter;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +48,10 @@ public class BookListFragment extends Fragment {
         call.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Response<List<Book>> response, Retrofit retrofit) {
-                adapter.setBooks(response.body());
+                // TODO append books twice just for testing
+                List<Book> books = response.body();
+                books.addAll(response.body());
+                adapter.setBooks(books);
             }
 
             @Override
