@@ -2,6 +2,7 @@ package org.emn.ksaintcricq;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -24,7 +25,7 @@ public class LibraryActivity extends AppCompatActivity implements BookListener {
         this.landscape = getResources().getBoolean(R.bool.landscape);
 
         this.bookListView = findViewById(R.id.book_list);
-        this.bookDetailsView = findViewById(R.id.book_details);
+        this.bookDetailsView = findViewById(R.id.book_details_wrapper);
 
         if (!landscape) bookDetailsView.setVisibility(View.GONE);
 

@@ -1,8 +1,10 @@
 package org.emn.ksaintcricq.components;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,11 @@ import org.emn.ksaintcricq.model.Book;
 import org.w3c.dom.Text;
 
 public class BookDetailsFragment extends Fragment {
+
+    private TextView isbn;
+    private TextView title;
+    private TextView price;
+    private ImageView cover;
 
     public BookDetailsFragment() {
         super();
@@ -41,6 +48,5 @@ public class BookDetailsFragment extends Fragment {
 
         return view;
     }
-
 
 }

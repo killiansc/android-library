@@ -7,7 +7,7 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.http.GET;
 
-public interface HenriPotierService {
+public interface BookService {
 
     // TODO Method GET books which return a List<Book>
 

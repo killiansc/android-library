@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import org.emn.ksaintcricq.R;
 import org.emn.ksaintcricq.model.Book;
-import org.emn.ksaintcricq.services.HenriPotierService;
+import org.emn.ksaintcricq.services.BookService;
 import org.emn.ksaintcricq.services.ServiceBuilder;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class BookListFragment extends Fragment {
         adapter = new BookRecyclerAdapter(this.getContext());
         recyclerView.setAdapter(adapter);
 
-        HenriPotierService service = ServiceBuilder.getInstance().build("http://henri-potier.xebia.fr/", HenriPotierService.class);
+        BookService service = ServiceBuilder.getInstance().build("http://henri-potier.xebia.fr/", BookService.class);
         Call<List<Book>> call = service.listBooks();
         call.enqueue(new Callback<List<Book>>() {
             @Override
