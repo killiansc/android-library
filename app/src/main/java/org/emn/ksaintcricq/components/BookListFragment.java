@@ -41,7 +41,7 @@ public class BookListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.book_list_fragment, container, false);
 
-        Timber.i("onCreate fragment");
+        Timber.i("INFO", "onCreate fragment");
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.books);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -55,19 +55,13 @@ public class BookListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Timber.i("onActivity fragment");
-        if (savedInstanceState != null) {
-            Timber.i(savedInstanceState.toString());
-            adapter.setBooks(savedInstanceState.<Book>getParcelableArrayList(Book.KEY));
-        } else {
+        if (savedInstanceState == null) {
             BookService service = ServiceBuilder.getInstance().build("http://henri-potier.xebia.fr/", BookService.class);
             Call<List<Book>> call = service.listBooks();
             call.enqueue(new Callback<List<Book>>() {
                 @Override
                 public void onResponse(Response<List<Book>> response, Retrofit retrofit) {
-                    // TODO appending books twice just for testing
                     List<Book> bookList = response.body();
-                    bookList.addAll(response.body());
                     books = bookList;
                     adapter.setBooks(books);
                 }
@@ -77,12 +71,14 @@ public class BookListFragment extends Fragment {
                     Toast.makeText(BookListFragment.this.getContext(), "Error", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+            books = savedInstanceState.getParcelableArrayList(Book.KEY);
+            adapter.setBooks(books);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Timber.i("onSave fragment");
         outState.putParcelableArrayList(Book.KEY, (ArrayList<? extends Parcelable>) books);
         super.onSaveInstanceState(outState);
     }
