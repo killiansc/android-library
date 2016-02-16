@@ -2,6 +2,7 @@ package org.emn.ksaintcricq;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,8 +12,11 @@ import org.emn.ksaintcricq.components.BookListFragment;
 import org.emn.ksaintcricq.components.BookListener;
 import org.emn.ksaintcricq.model.Book;
 
+import timber.log.Timber;
+
 public class LibraryActivity extends AppCompatActivity implements BookListener {
 
+    private Fragment bookListFragment;
     private View bookListView;
     private View bookDetailsView;
     private boolean landscape;
@@ -21,6 +25,8 @@ public class LibraryActivity extends AppCompatActivity implements BookListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.library_activity);
+        Timber.plant(new Timber.DebugTree());
+        Timber.i("onCreate activity");
 
         this.landscape = getResources().getBoolean(R.bool.landscape);
 
@@ -29,10 +35,25 @@ public class LibraryActivity extends AppCompatActivity implements BookListener {
 
         if (!landscape) bookDetailsView.setVisibility(View.GONE);
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.book_list, new BookListFragment(), BookListFragment.class.getSimpleName())
-                .commit();
+        if (savedInstanceState == null) {
+            bookListFragment = new BookListFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.book_list, bookListFragment, BookListFragment.class.getSimpleName())
+                    .commit();
 
+        } else {
+            Timber.i("not null");
+            Timber.i(savedInstanceState.toString());
+            bookListFragment = getSupportFragmentManager().getFragment(savedInstanceState, BookListFragment.class.getSimpleName());
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Timber.i("onSave activity");
+        getSupportFragmentManager().putFragment(outState, BookListFragment.class.getSimpleName(), bookListFragment);
     }
 
     @Override
