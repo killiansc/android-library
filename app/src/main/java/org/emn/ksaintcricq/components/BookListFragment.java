@@ -41,7 +41,6 @@ public class BookListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.book_list_fragment, container, false);
 
-        Timber.i("INFO", "onCreate fragment");
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.books);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
